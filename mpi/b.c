@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+//reproduce MPI_Alltoall with MPI_Send and MPI_Recv
 void alltoall(int* send, int count1, MPI_Datatype sendtype, int* recv, int count2, MPI_Datatype recvtype, MPI_Comm comm){
     int rank, size;
     MPI_Status status;

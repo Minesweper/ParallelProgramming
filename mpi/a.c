@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+//devide process into groups and broadcast from root to all nodes
 int main(int argc, char *argv[]) {
     int rank, num;
     char tmp[16];

@@ -4,6 +4,7 @@
 #include <string.h>
 #include <math.h>
 
+//butterfly-sum all nodes 
 int main(int argc, char *argv[]){
     int num, rank;
     MPI_Init(&argc, &argv);

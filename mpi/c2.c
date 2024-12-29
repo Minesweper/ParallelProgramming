@@ -5,6 +5,7 @@
 #include <math.h>
 
 
+// binary tree sum all nodes
 int main(int argc, char *argv[]){
     int size,rank;
     MPI_Init(&argc, &argv);
