@@ -6,32 +6,31 @@
 
 
 int main(int argc, char *argv[]){
-    int lo,num,rank;
+    int size,rank;
     MPI_Init(&argc, &argv);
-    MPI_Comm_size(MPI_COMM_WORLD, &num);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Status status;
-    int ans = rank + 1, tmp = 0;
-    
-    for (int i = 1; i <= lo; i++){
-        int tag = i;
-        int step = (int)pow(2, i);
-        if (pid % step == 0)
-        {
-            MPI_Recv(&tmp, 1, MPI_INT, pid + step/2, tag, MPI_COMM_WORLD, &status);
-            ans += tmp;
+
+    int ans = rank + 1, num = size, tmp = 0;
+    for (num; num > 1; num /= 2) {
+        if (rank < num / 2) {            
+            MPI_Recv(&tmp, 1, MPI_INT, rank + num / 2, 0, MPI_COMM_WORLD, &status);
+            ans += tmp; 
+        } 
+        else {
+            int dest = rank - num / 2;
+            MPI_Send(&ans, 1, MPI_INT, dest, 0, MPI_COMM_WORLD);
+            break;
         }
-        else if(pid % step == step/2) MPI_Send(&ans, 1, MPI_INT, pid - step/2, tag, MPI_COMM_WORLD);
-        
     }
-    for (int i = lo; i > 0; i--){
-        int tag = i;
-        int step = (int)pow(2, i);
-        if (pid % step == 0) MPI_Send(&ans, 1, MPI_INT, pid + step / 2, tag, MPI_COMM_WORLD);
-        
-        else if(pid % step == step/2){
-            MPI_Recv(&tmp, 1, MPI_INT, pid - step / 2, tag, MPI_COMM_WORLD, &status);
-            ans = tmp;
+
+    for (num = 1; num < size; num *= 2) {
+        if (rank < num) {            
+            MPI_Send(&ans, 1, MPI_INT, rank + num, 0, MPI_COMM_WORLD);           
+        } else if(rank < num * 2 ) {           
+            int source = rank - num;
+            MPI_Recv(&ans, 1, MPI_INT, source, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         }
     }
 
@@ -39,7 +38,7 @@ int main(int argc, char *argv[]){
         printf("Tree-level sum:\n");
     }
     MPI_Barrier(MPI_COMM_WORLD);
-    printf("id = %d, sum = %d\n", rank, data);
+    printf("id = %d, sum = %d\n", rank, ans);
     MPI_Finalize();
     return 0;
 }

@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
         strncpy(tmp, "Hello World", 16);
     }
     MPI_Comm world;
-    MPI_Comm_split(MPI_COMM_WORLD, rank % 4, rank, &world);
+    MPI_Comm_split(MPI_COMM_WORLD, rank % 4, rank / 4, &world);
     int rank1,num1;
     MPI_Comm_rank(world, &rank1);
     MPI_Comm_size(world, &num1);

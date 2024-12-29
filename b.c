@@ -50,7 +50,7 @@ int main(int argc, char* argv[])
 	for (i = 0; i < size; i++)
 		printf("My rank =  %d  recv = %d\n", rank, recvdata[i]);
 
-    if (rank == 0) printf("total time = %f\n", e_t - s_t);
+    if (rank == 0) printf("total time = %f\n", et - st);
     MPI_Finalize();
     return 0;
 }

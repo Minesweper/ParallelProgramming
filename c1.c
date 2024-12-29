@@ -25,7 +25,7 @@ int main(int argc, char *argv[]){
         printf("Butterfly-level sum:\n");
     }
     MPI_Barrier(MPI_COMM_WORLD);
-    printf("id = %d, sum = %d\n", rank, data);
+    printf("id = %d, sum = %d\n", rank, ans);
     MPI_Finalize();
 
     return 0;
