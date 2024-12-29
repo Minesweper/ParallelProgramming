@@ -6,5 +6,8 @@
 
 ```
 sudo apt-get install mpich
+
+mpicc -lm -o <EXAMPLE> <EXAMPLE.c>
+mpiexec -n <CORE_NUM> <./EXAMPLE>
 ```
 
