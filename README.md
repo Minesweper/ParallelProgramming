@@ -11,7 +11,7 @@ mpicc -lm -o <EXAMPLE> <EXAMPLE.c>
 mpiexec -n <CORE_NUM> <./EXAMPLE>
 ```
 
-In ```mpi/```
+In ```mpi/```, to be continued.
 
 ### CUDA Usage
 
