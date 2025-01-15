@@ -19,4 +19,4 @@ In ```mpi/```, to be continued.
 ./run.sh
 ```
 
-In ```life3d/```, original source code named as ```bench.cu```.
+In ```cuda/```, original source code named as ```bench.cu```.
