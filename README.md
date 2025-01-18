@@ -1,6 +1,6 @@
 ## USTC 2024 Parallel Programming (COMP6201P.01) Course Lab
 
-### MPI Usage
+### MPI
 
 <strong>Linux:</strong>
 
@@ -13,9 +13,9 @@ mpiexec -n <CORE_NUM> <./EXAMPLE>
 
 In ```mpi/```, to be continued.
 
-### CUDA Usage
+### CUDA
 
-<strong>Use ```nvcc -V``` to check environment.</strong>
+<strong>Use ```nvcc -V``` to check your environment.</strong>
 
 ```
 ./run.sh
