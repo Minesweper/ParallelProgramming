@@ -15,6 +15,8 @@ In ```mpi/```, to be continued.
 
 ### CUDA Usage
 
+<strong>Use ```nvcc -V``` to check environment.</strong>
+
 ```
 ./run.sh
 ```
