@@ -1,39 +1,47 @@
-#include "mpi.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include<stdio.h>
+#include<mpi.h>
+#include<stdlib.h>
+#include<string.h>
 
-//devide process into groups and broadcast from root to all nodes
-int main(int argc, char *argv[]) {
-    int rank, num;
-    char tmp[16];
+int main(int argc, char** argv) {
+    int rank, size;
     MPI_Init(&argc, &argv);
-    MPI_Comm_size(MPI_COMM_WORLD, &num);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    if(rank == 0) {
-        strncpy(tmp, "Hello World", 16);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
+
+    int group_num = 2;
+    int color, key;
+    color = rank % group_num;
+    key = rank / group_num;
+    MPI_Comm new_group;
+    MPI_Comm_split(MPI_COMM_WORLD, color, key, &new_group);
+
+    int new_rank, new_size;
+    MPI_Comm_rank(new_group, &new_rank);
+    MPI_Comm_size(new_group, &new_size);
+
+    int message = 0;
+    int cast_root = 2;
+    
+    if(rank == cast_root) {
+        message = 2024;
+        printf("Cast root rank: %d\n",cast_root);
+        for(int i = 0; i < size; i++) {
+            if( (i != cast_root) && i / group_num == 0) {
+                MPI_Send(&message, 1, MPI_INT, i, 0, MPI_COMM_WORLD);
+            }
+        }
+    } else {
+        if(rank / group_num == 0) {
+            MPI_Recv(&message, 1, MPI_INT, cast_root, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            printf("rank %d, receive from rank %d\n",rank,cast_root);
+        }
     }
-    MPI_Comm world;
-    MPI_Comm_split(MPI_COMM_WORLD, rank % 4, rank / 4, &world);
-    int rank1,num1;
-    MPI_Comm_rank(world, &rank1);
-    MPI_Comm_size(world, &num1);
-    MPI_Group world_group, group;
-    int fir[] = {0, 1, 2, 3};
-    MPI_Comm_group(MPI_COMM_WORLD, &world_group);
-    MPI_Group_incl(world_group, 4, fir, &group);
 
-    MPI_Comm firstworld;
-    MPI_Comm_create(MPI_COMM_WORLD, group, &firstworld);
+    MPI_Bcast(&message, 1, MPI_INT, 0, new_group);
 
-    MPI_Barrier(MPI_COMM_WORLD);
-    MPI_Bcast(tmp, 16, MPI_CHAR, 0, firstworld);
-    MPI_Barrier(MPI_COMM_WORLD);
-
-    MPI_Bcast(tmp, 16, MPI_CHAR, 0, world);
-    MPI_Barrier(MPI_COMM_WORLD);
-
-    printf("rank %d, num %d, new num %d, tmp %s\n", rank, num, num1, tmp);
+    printf("Global rank: %d\n", rank);
+    MPI_Comm_free(&new_group);
     MPI_Finalize();
     return 0;
 }

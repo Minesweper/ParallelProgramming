@@ -7,8 +7,13 @@
 ```
 sudo apt-get install mpich
 
-mpicc -lm -o <EXAMPLE> <EXAMPLE.c>
+mpic++ -lm -o <EXAMPLE> <EXAMPLE.c>
 mpiexec -n <CORE_NUM> <./EXAMPLE>
+
+example:
+
+mpic++ -lm -o lab a.c
+mpiexec -n 16 ./lab
 ```
 
 In ```mpi/```, to be continued.
