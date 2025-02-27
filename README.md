@@ -11,7 +11,6 @@ mpic++ -lm -o <EXAMPLE> <EXAMPLE.c>
 mpiexec -n <CORE_NUM> <./EXAMPLE>
 
 example:
-
 mpic++ -lm -o lab a.c
 mpiexec -n 16 ./lab
 ```

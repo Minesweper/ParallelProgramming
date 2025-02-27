@@ -24,7 +24,7 @@ int main(int argc, char** argv) {
     int cast_root = 2;
     
     if(rank == cast_root) {
-        message = 2024;
+        message = 888;
         printf("Cast root rank: %d\n",cast_root);
         for(int i = 0; i < size; i++) {
             if( (i != cast_root) && i / group_num == 0) {
